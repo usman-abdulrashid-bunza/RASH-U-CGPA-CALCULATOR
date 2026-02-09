@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASH-U CGPA CALCULATOR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 15px;
+            text-align: center;
+            border-bottom: 5px solid #667eea;
+        }
+
+        .header-title {
+            font-size: 80px;
+            font-weight: 900;
+            color: #667eea;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.1;
+        }
+
+        .header-subtitle {
+            font-size: 15px;
+            color: #666;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 35px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .input-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 15px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.3s;
+            font-weight: 500;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+            background: #fff;
+        }
+
+        .btn-add-course {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .btn-add-course:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-add-course:active {
+            transform: translateY(0);
+        }
+
+        .course-list {
+            margin-bottom: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .course-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .course-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .course-info {
+            font-size: 12px;
+            color: #666;
+            padding: 5px 0;
+            font-weight: 500;
+        }
+
+        .course-info strong {
+            color: #333;
+        }
+
+        .btn-remove {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s;
+            align-self: center;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-remove:hover {
+            background: #ee5a52;
+            transform: scale(1.05);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-calculate:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+            border-color: #999;
+        }
+
+        .btn-reset:active {
+            transform: scale(0.98);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 10px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .cgpa-value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .degree-classification {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .degree-label {
+            font-size: 12px;
+            opacity: 0.95;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .degree-class {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .degree-range {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-top: 6px;
+        }
+
+        .grade-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .grade-info h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .grade-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        .grade-cell {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .grade-cell:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .grade-cell strong {
+            color: #667eea;
+            display: block;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .degree-scale {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .degree-scale h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .degree-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .degree-cell {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .degree-cell:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .degree-cell strong {
+            color: #667eea;
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .degree-cell-range {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        .footer {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border-top: 4px solid #667eea;
+            margin-bottom: 20px;
+        }
+
+        .developer-info {
+            color: #333;
+            font-size: 12px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .developer-info strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .copyright {
+            color: #666;
+            font-size: 11px;
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 25px 15px;
+                margin-bottom: 15px;
+                border-radius: 12px;
+            }
+
+            .header-title {
+                font-size: 50px;
+                letter-spacing: 2px;
+                margin-bottom: 8px;
+            }
+
+            .header-subtitle {
+                font-size: 12px;
+                letter-spacing: 0.5px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                margin-bottom: 20px;
+            }
+
+            .input-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            .btn-add-course {
+                grid-column: 1 / -1;
+                padding: 10px;
+                font-size: 11px;
+                height: 40px;
+            }
+
+            label {
+                font-size: 10px;
+                margin-bottom: 5px;
+            }
+
+            select {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .course-list {
+                margin-bottom: 20px;
+                padding: 10px;
+                max-height: 350px;
+            }
+
+            .course-item {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .course-info {
+                font-size: 11px;
+                padding: 4px 0;
+            }
+
+            .btn-remove {
+                grid-column: 1 / -1;
+                padding: 6px;
+                font-size: 10px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .btn-calculate,
+            .btn-reset {
+                padding: 10px;
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+
+            .results {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .result-item {
+                padding: 12px;
+            }
+
+            .result-label {
+                font-size: 9px;
+                margin-bottom: 6px;
+            }
+
+            .result-value {
+                font-size: 18px;
+            }
+
+            .cgpa-value {
+                font-size: 28px;
+            }
+
+            .degree-classification {
+                padding: 12px;
+            }
+
+            .degree-label {
+                font-size: 10px;
+                margin-bottom: 6px;
+            }
+
+            .degree-class {
+                font-size: 16px;
+            }
+
+            .degree-range {
+                font-size: 10px;
+                margin-top: 4px;
+            }
+
+            .grade-info,
+            .degree-scale {
+                padding: 15px;
+                margin-top: 15px;
+            }
+
+            .grade-info h3,
+            .degree-scale h3 {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            .grade-table,
+            .degree-table {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .grade-cell,
+            .degree-cell {
+                padding: 8px;
+                font-size: 11px;
+            }
+
+            .grade-cell strong {
+                font-size: 14px;
+                margin-bottom: 2px;
+            }
+
+            .degree-cell strong {
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+
+            .degree-cell-range {
+                font-size: 10px;
+            }
+
+            .empty-state {
+                padding: 25px;
+            }
+
+            .empty-state-icon {
+                font-size: 36px;
+                margin-bottom: 8px;
+            }
+
+            .empty-state p {
+                font-size: 12px;
+            }
+
+            .footer {
+                padding: 20px 15px;
+                border-radius: 12px;
+                margin-bottom: 15px;
+                border-top: 3px solid #667eea;
+            }
+
+            .developer-info {
+                font-size: 11px;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+
+            .copyright {
+                font-size: 10px;
+                padding-top: 12px;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 18px 12px;
+                margin-bottom: 12px;
+                margin-top: 10px;
+                border-radius: 10px;
+            }
+
+            .header-title {
+                font-size: 36px;
+                letter-spacing: 1px;
+                margin-bottom: 6px;
+            }
+
+            .header-subtitle {
+                font-size: 10px;
+                letter-spacing: 0.3px;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 6px;
+            }
+
+            .subtitle {
+                font-size: 11px;
+                margin-bottom: 15px;
+            }
+
+            .input-section {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+
+            .btn-add-course {
+                grid-column: auto;
+                padding: 8px;
+                font-size: 10px;
+                height: 38px;
+            }
+
+            label {
+                font-size: 9px;
+                margin-bottom: 4px;
+            }
+
+            select {
+                padding: 6px;
+                font-size: 11px;
+            }
+
+            .course-list {
+                margin-bottom: 15px;
+                padding: 8px;
+                max-height: 300px;
+            }
+
+            .course-item {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .course-info {
+                font-size: 10px;
+                padding: 3px 0;
+            }
+
+            .btn-remove {
+                padding: 5px;
+                font-size: 9px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .btn-calculate,
+            .btn-reset {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .results {
+                padding: 15px;
+                margin-bottom: 12px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            .result-item {
+                padding: 10px;
+            }
+
+            .result-label {
+                font-size: 8px;
+                margin-bottom: 5px;
+            }
+
+            .result-value {
+                font-size: 16px;
+            }
+
+            .cgpa-value {
+                font-size: 24px;
+            }
+
+            .degree-classification {
+                padding: 10px;
+            }
+
+            .degree-label {
+                font-size: 9px;
+                margin-bottom: 5px;
+            }
+
+            .degree-class {
+                font-size: 14px;
+            }
+
+            .degree-range {
+                font-size: 9px;
+                margin-top: 3px;
+            }
+
+            .grade-info,
+            .degree-scale {
+                padding: 12px;
+                margin-top: 12px;
+            }
+
+            .grade-info h3,
+            .degree-scale h3 {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            .grade-table,
+            .degree-table {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .grade-cell,
+            .degree-cell {
+                padding: 6px;
+                font-size: 10px;
+            }
+
+            .grade-cell strong {
+                font-size: 12px;
+                margin-bottom: 2px;
+            }
+
+            .degree-cell strong {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+
+            .degree-cell-range {
+                font-size: 9px;
+            }
+
+            .footer {
+                padding: 15px 12px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                border-top: 3px solid #667eea;
+            }
+
+            .developer-info {
+                font-size: 10px;
+                margin-bottom: 10px;
+                line-height: 1.4;
+            }
+
+            .copyright {
+                font-size: 9px;
+                padding-top: 10px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="header-title">BULSA BRANCH</div>
+        <div class="header-subtitle">Usmanu Danfodiyo University Sokoto</div>
+    </div>
+
+    <div class="container">
+        <h1>SMART CGPA CALCULATOR</h1>
+        <p class="subtitle">Calculate Smart. Plan Better.</p>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="form-group">
+                    <label>Course Units</label>
+                    <select id="units">
+                        <option value="1">1 Unit</option>
+                        <option value="2">2 Units</option>
+                        <option value="3" selected>3 Units</option>
+                        <option value="4">4 Units</option>
+                        <option value="5">5 Units</option>
+                        <option value="6">6 Units</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Grade (A-F)</label>
+                    <select id="grade">
+                        <option value="A">A (5.0)</option>
+                        <option value="B">B (4.0)</option>
+                        <option value="C">C (3.0)</option>
+                        <option value="D">D (2.0)</option>
+                        <option value="E">E (1.0)</option>
+                        <option value="F">F (0.0)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-add-course" onclick="addCourse()">+ Add Course</button>
+        </div>
+
+        <!-- Course List -->
+        <div class="course-list" id="courseList">
+            <div class="empty-state">
+                <div class="empty-state-icon">📚</div>
+                <p>No courses added yet. Select units and grade, then click "Add Course"!</p>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="btn-calculate" onclick="calculateCGPA()">📊 Calculate CGPA</button>
+            <button class="btn-reset" onclick="resetCalculator()">🔄 Reset</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-label">Total Units</div>
+                    <div class="result-value" id="totalUnits">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Points</div>
+                    <div class="result-value" id="totalPoints">0</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Your CGPA</div>
+                    <div class="cgpa-value" id="cgpaValue">0.00</div>
+                </div>
+            </div>
+
+            <div class="degree-classification">
+                <div class="degree-label">Degree Classification</div>
+                <div class="degree-class" id="degreeClass">First Class Honor</div>
+                <div class="degree-range" id="degreeRange">(4.50 - 5.00)</div>
+            </div>
+        </div>
+
+        <!-- Grade Scale -->
+        <div class="grade-info">
+            <h3>📋 Grade Scale Reference</h3>
+            <div class="grade-table">
+                <div class="grade-cell"><strong>A</strong>5.0 Points</div>
+                <div class="grade-cell"><strong>B</strong>4.0 Points</div>
+                <div class="grade-cell"><strong>C</strong>3.0 Points</div>
+                <div class="grade-cell"><strong>D</strong>2.0 Points</div>
+                <div class="grade-cell"><strong>E</strong>1.0 Points</div>
+                <div class="grade-cell"><strong>F</strong>0.0 Points</div>
+            </div>
+        </div>
+
+        <!-- Degree Classification Scale -->
+        <div class="degree-scale">
+            <h3>🏆 Degree Classification Scale</h3>
+            <div class="degree-table">
+                <div class="degree-cell">
+                    <strong>First Class Honor</strong>
+                    <div class="degree-cell-range">4.50 - 5.00</div>
+                </div>
+                <div class="degree-cell">
+                    <strong>Second Class Upper</strong>
+                    <div class="degree-cell-range">3.50 - 4.49</div>
+                </div>
+                <div class="degree-cell">
+                    <strong>Second Class Lower</strong>
+                    <div class="degree-cell-range">2.40 - 3.49</div>
+                </div>
+                <div class="degree-cell">
+                    <strong>Third Class</strong>
+                    <div class="degree-cell-range">1.50 - 2.39</div>
+                </div>
+                <div class="degree-cell">
+                    <strong>Pass</strong>
+                    <div class="degree-cell-range">1.00 - 1.49</div>
+                </div>
+                <div class="degree-cell">
+                    <strong>Fail</strong>
+                    <div class="degree-cell-range">0.00 - 0.99</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="developer-info">
+            <strong>👨‍💻 Developed by:</strong> Abdulrashid Usman | B.Sc. Cybersecurity (200 Level), Dept. of Computer Science, Faculty of Physical & Computing Sciences.
+        </div>
+        <div class="copyright">
+            © 2026 Abdoul & Brothers Computing Services Limited. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        let courses = [];
+
+        const gradePoints = {
+            'A': 5,
+            'B': 4,
+            'C': 3,
+            'D': 2,
+            'E': 1,
+            'F': 0
+        };
+
+        const degreeClassifications = [
+            { min: 4.50, max: 5.00, class: 'First Class Honor', emoji: '🥇' },
+            { min: 3.50, max: 4.49, class: 'Second Class Upper', emoji: '🥈' },
+            { min: 2.40, max: 3.49, class: 'Second Class Lower', emoji: '🥉' },
+            { min: 1.50, max: 2.39, class: 'Third Class', emoji: '📜' },
+            { min: 1.00, max: 1.49, class: 'Pass', emoji: '✅' },
+            { min: 0.00, max: 0.99, class: 'Fail', emoji: '❌' }
+        ];
+
+        function addCourse() {
+            const units = parseInt(document.getElementById('units').value);
+            const grade = document.getElementById('grade').value;
+
+            courses.push({
+                id: Date.now(),
+                units: units,
+                grade: grade,
+                points: gradePoints[grade] * units
+            });
+
+            renderCourses();
+        }
+
+        function removeCourse(id) {
+            courses = courses.filter(course => course.id !== id);
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const courseList = document.getElementById('courseList');
+
+            if (courses.length === 0) {
+                courseList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📚</div>
+                        <p>No courses added yet. Select units and grade, then click "Add Course"!</p>
+                    </div>
+                `;
+                document.getElementById('results').classList.remove('show');
+                return;
+            }
+
+            courseList.innerHTML = courses.map((course, index) => `
+                <div class="course-item">
+                    <div class="course-info"><strong>📖 Course ${index + 1}</strong></div>
+                    <div class="course-info">📚 Units: <strong>${course.units}</strong></div>
+                    <div class="course-info">⭐ Grade: <strong>${course.grade}</strong> (${gradePoints[course.grade]} pts)</div>
+                    <button class="btn-remove" onclick="removeCourse(${course.id})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function getDegreeClassification(cgpa) {
+            for (let i = 0; i < degreeClassifications.length; i++) {
+                if (cgpa >= degreeClassifications[i].min && cgpa <= degreeClassifications[i].max) {
+                    return degreeClassifications[i];
+                }
+            }
+            return degreeClassifications[degreeClassifications.length - 1];
+        }
+
+        function calculateCGPA() {
+            if (courses.length === 0) {
+                alert('Please add at least one course before calculating CGPA');
+                return;
+            }
+
+            let totalUnits = 0;
+            let totalPoints = 0;
+
+            courses.forEach(course => {
+                totalUnits += course.units;
+                totalPoints += course.points;
+            });
+
+            const cgpa = totalUnits > 0 ? (totalPoints / totalUnits).toFixed(2) : 0;
+            const degreeInfo = getDegreeClassification(cgpa);
+
+            document.getElementById('totalUnits').textContent = totalUnits;
+            document.getElementById('totalPoints').textContent = totalPoints;
+            document.getElementById('cgpaValue').textContent = cgpa;
+            document.getElementById('degreeClass').textContent = `${degreeInfo.emoji} ${degreeInfo.class}`;
+            document.getElementById('degreeRange').textContent = `(${degreeInfo.min.toFixed(2)} - ${degreeInfo.max.toFixed(2)})`;
+            document.getElementById('results').classList.add('show');
+        }
+
+        function resetCalculator() {
+            courses = [];
+            document.getElementById('units').value = '3';
+            document.getElementById('grade').value = 'A';
+            document.getElementById('results').classList.remove('show');
+            renderCourses();
+        }
+    </script>
+</body>
+</html>
